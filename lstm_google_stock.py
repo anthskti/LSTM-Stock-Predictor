@@ -2,11 +2,11 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from sklearn.preprocessing import MinMaxScalar
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dropout, Dense
-# from tensorflow.keras.
+from tensorflow.keras.optimizers import Adam
 
 
 
@@ -15,15 +15,15 @@ from tensorflow.keras.layers import LSTM, Dropout, Dense
 google_data = yf.download('GOOG', period='2y')
 
 # computing the moving averages of 5, 20, 50
-google_data['MA_5'] = google_data['Close'].rollowing(window=5).mean()
-google_data['MA_20'] = google_data['Close'].rollowing(window=20).mean()
-google_data['MA_50'] = google_data['Close'].rollowing(window=50).mean()
+google_data['MA_5'] = google_data['Close'].rolling(window=5).mean()
+google_data['MA_20'] = google_data['Close'].rolling(window=20).mean()
+google_data['MA_50'] = google_data['Close'].rolling(window=50).mean()
 
 # our features
 features = ['MA_5', "MA_20", "MA-50", "Clsoe"]
 
-# Scalar is used to normalize data so the features are scalled between 0 and 1 for the LSTM performance
-scalar = MinMaxScalar()
+# Scaler is used to normalize data so the features are scalled between 0 and 1 for the LSTM performance
+scaler = MinMaxScaler()
 google_data_scaled = scalar.fit_transform(google_data[features]);
 
 # prepping for output
@@ -57,8 +57,13 @@ model = Sequential([
     Dropout(0.2),
     Dense(1, activation='sigmoid') # 1 since binary classification, sigmoid is for probability from 0 to 1
 ])
+# Loss Function, Optimizer, Metrics
+model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
 
 # Train Model
-
+# train model for 20 full cycles. Updates weight after every 16 samples. Check's accuracy during training
+model.fit(x_train, y_train, epochs=20, batch_size=16, validation_data=(x_test, y_test))
 
 # Test Model
+loss, accuracy = model.evaluate(x_test, y_test)
+print(f"Test Accuracy: {accuracy *100:2f}%")
