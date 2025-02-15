@@ -20,11 +20,11 @@ google_data['MA_20'] = google_data['Close'].rolling(window=20).mean()
 google_data['MA_50'] = google_data['Close'].rolling(window=50).mean()
 
 # our features
-features = ['MA_5', "MA_20", "MA-50", "Clsoe"]
+features = ['MA_5', "MA_20", "MA_50", "Close"]
 
 # Scaler is used to normalize data so the features are scalled between 0 and 1 for the LSTM performance
 scaler = MinMaxScaler()
-google_data_scaled = scalar.fit_transform(google_data[features]);
+google_data_scaled = scaler.fit_transform(google_data[features]);
 
 # prepping for output
 # Creates a Target such that, if the price is higher than today, will output 1. 
@@ -44,7 +44,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # configuing the data for the LSTM Model
 # require a 3D input, (samples, time steps, features)
-x_train = np.reshape(x_train, (x_train[0], 1, x_train.shape[1]))
+x_train = np.reshape(x_train, (x_train.shape[0], 1, x_train.shape[1]))
 x_test = np.reshape(x_test, (x_test.shape[0], 1, x_test.shape[1]))
 
 # LSTM Model
