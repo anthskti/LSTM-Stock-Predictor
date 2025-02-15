@@ -1,0 +1,7 @@
+# Ignores the virtual environment
+venv/
+
+# Ignores the cahce
+__pycache__/
+*.pyc
+*.pyo
