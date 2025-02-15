@@ -8,5 +8,5 @@ Create Virtual Environment:
 Install the Dependencies:
 ##### `pip install yfinance pandas numpy plotly scikit-learn tensor flow`
 
-To run the Script:\
+To run the Script:
 ##### `python3 lstm_google_stock.py`
