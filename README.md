@@ -2,6 +2,11 @@
 Machine Learning Model for Goog Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
+### Prerequisites
+Make Sure you have the following install:
+- [Python](https://www.python.org/)
+- [Pip](https://pip.pypa.io/en/stable/) (Python package manager)
+
 ### Installation 
 1. Clone Repository: 
 ``` bash
