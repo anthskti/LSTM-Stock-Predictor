@@ -9,7 +9,7 @@ git clone https://github.com/anthskti/LSTM-Google-Model.git
 cd LSTM-Google-Model
 ```
 
-2. Enter in Python Virtual Environment and Install Packages
+2. Enter in Python Virtual Environment and Install Packages (for macos)
 ``` bash 
 python3 -m venv venv
 source venv/bin/activate
