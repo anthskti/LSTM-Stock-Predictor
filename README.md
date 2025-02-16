@@ -2,11 +2,21 @@
 Machine Learning Model for Goog Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
-Create Virtual Environment:
-##### `python3 -m venv venv`
+### Installation 
+1. Clone Repository: 
+``` bash
+git clone https://github.com/anthskti/LSTM-Google-Model.git
+cd LSTM-Google-Model
+```
 
-Install the Dependencies:
-##### `pip install yfinance pandas numpy plotly scikit-learn tensor flow`
+2. Enter in Python Virtual Environment and Install Packages
+``` bash 
+python3 -m venv venv
+source venv/bin/activate
+pip install yfinance pandas numpy plotly scikit-learn tensorflow
+```
 
-To run the Script:
-##### `python3 lstm_google_stock.py`
+3. Run Python Script 
+``` bash
+python3 lstm_google_stock.py
+```
