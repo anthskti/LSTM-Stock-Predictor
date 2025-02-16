@@ -7,12 +7,20 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dropout, Dense
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras import Input
 
 
+# User input for stock ticker
+ticker = input("Enter ticker: ").upper()
 
-
-# to fetch the google stock data, downloading two years worth of data
-stock_data = yf.download('GOOG', period='2y')
+try:
+    # to fetch the google stock data, downloading two years worth of data
+    stock_data = yf.download(ticker, period='2y')
+    if stock_data.empty:
+        raise ValueError("Invalid ticker symbol or no data available.")
+except Exception as e:
+    print(f"Error: {e}")
+    exit()
 
 # computing the moving averages of 5, 20, 50
 stock_data['MA_5'] = stock_data['Close'].rolling(window=5).mean()
@@ -52,8 +60,9 @@ X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 # LSTM Model
 # sequential creates stacks of layers
 model = Sequential([
+    Input(shape=(1, X_train.shape[2])),
     # 50 units, allows passing output to the next layer, 
-    LSTM(50, return_sequences=True, input_shape=(1, X_train.shape[2])), 
+    LSTM(50, return_sequences=True), 
     Dropout(0.2),
     LSTM(50),
     Dropout(0.2),
@@ -86,13 +95,13 @@ latest_data_scaled = np.reshape(latest_data_scaled, (1, 1, latest_data_scaled.sh
 # print(stock_data[features].head())  # Should show only 4 columns
 
 
-
 # Make prediction
 prediction = model.predict(latest_data_scaled)
+# print(f"{prediction[0][0]}")
 if prediction[0][0] > 0.5:
-    print("Prediction: Stock will go UP tomorrow 📈")
+    print(f"Prediction for {ticker}: 📈 Stock will go UP tomorrow!")
 else:
-    print("Prediction: Stock will go DOWN tomorrow 📉")
+    print(f"Prediction for {ticker}: 📉 Stock will go DOWN tomorrow.")
 
 
 
