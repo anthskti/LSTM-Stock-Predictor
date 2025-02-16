@@ -1,5 +1,5 @@
 # LSTM-Google-Model
-Machine Learning Model for Goog Stock Share.\
+Machine Learning Model for GOOG Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
 ### Prerequisites
@@ -25,3 +25,5 @@ pip install yfinance pandas numpy plotly scikit-learn tensorflow
 ``` bash
 python3 lstm_google_stock.py
 ```
+
+Input any valid ticker and a prediction for tomorrows stock will show.
