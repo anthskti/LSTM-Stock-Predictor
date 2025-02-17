@@ -10,8 +10,6 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import Input
 
 
-# User input for stock ticker
-ticker = input("Enter ticker: ").upper()
 
 try:
     # to fetch the google stock data, downloading two years worth of data
@@ -29,7 +27,7 @@ stock_data['MA_50'] = stock_data['Close'].rolling(window=50).mean()
 stock_data.dropna(inplace=True)
 
 # our features 
-features = ['MA_5', "MA_20", "MA_50", "Close"]
+features = ["MA_5", "MA_20", "MA_50", "Close"]
 
 # Scaler is used to normalize data so the features are scalled between 0 and 1 for the LSTM performance
 scaler = MinMaxScaler()

@@ -2,6 +2,11 @@
 Machine Learning Model for GOOG Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
+The stock market is full of potential, using pattern recognition is something investors and traders use to analyze and predict stock prices. My intuition was to use those common stock patterns with machine learning to analyze a stock and conclude if the price with go up or down.
+Using 5, 20, and 50 SMA (Simple Moving Averages) indicators with the Golden Cross (as it can show large momentum) and the Fibonnaci Retracement Levels, I reorganized and inputted the data of the desired stock into an LSTM (long short-term memory) model to find patterns and predict the next day stock. 
+There is a 50% chance you can be right if you look at a stock, but this model can predict higher than that with all the indicators I've implemented within the script. 
+Though it is not always right, as the stock market is always flucuating, it is a good baseline for those who are interested in investing.
+
 ### Prerequisites
 Make Sure you have the following install:
 - [Python](https://www.python.org/)
