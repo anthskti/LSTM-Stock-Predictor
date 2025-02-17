@@ -1,6 +1,7 @@
-# LSTM-Google-Model
-Machine Learning Model for GOOG Stock Share.\
-Predicting the question: "Will tomorrow's price be higher than today's closing price?".
+# LSTM-Model-Predictor
+Machine Learning Model for a Stock Share.\
+Predicting the question: "Will tomorrow's price be higher than today's closing price?".\
+My original Idea started with, predicting the price of GOOG, but ended up making it more versatile.
 
 The stock market is full of potential, using pattern recognition is something investors and traders use to analyze and predict stock prices. My intuition was to use those common stock patterns with machine learning to analyze a stock and conclude if the price with go up or down.
 Using 5 day, 20 day, and 50 day SMA (Simple Moving Averages) indicators with the Golden Cross (as it can show large momentum) and the Fibonnaci Retracement Levels, I reorganized and inputted the data of the desired stock into an LSTM (long short-term memory) model to find patterns and predict the next day stock.\
@@ -30,7 +31,7 @@ pip install yfinance pandas numpy plotly scikit-learn tensorflow
 ``` bash
 python3 lstm_stock_predictor.py
 ```
-or
+or\
 3. Run Python Script for SMA. 
 ``` bash
 python3 lstm_predictor_sma.py
