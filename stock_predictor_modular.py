@@ -2,13 +2,15 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, save_model, load_model
 from tensorflow.keras.layers import LSTM, Dropout, Dense
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import Input
 import logging
+import os
 
 # Setting up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -56,6 +58,12 @@ def calculate_fibonacci_levels(stock_data, period=60):
     stock_data['Fib_0.618'] = stock_data['High_Max'] - (stock_data['High_Max'] - stock_data['Low_Min']) * 0.618
     return stock_data
 
+# VWAP / Volume Weighted Average Price
+def calculate_vwap(stock_data):
+    weighted_price = (stock_data['High'] + stock_data['Low'] + stock_data['Close']) / 3
+    stock_data['VWAP'] = (weighted_price * stock_data['Volume']).cumsum() + stock_data['Volume'].cumsum()
+    return stock_data
+
 # Prepping data for the training model
 def prepare_data(stock_data, features):
     # Scaler is used to normalize data so the features are scalled between 0 and 1 for the LSTM performance
@@ -89,6 +97,27 @@ def build_lstm_model(input_shape):
     model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.001), metrics=['mae'])
     return model
 
+# Actual vs Predicted on Plotly
+def plot_results(stock_data, y_test, y_pred):
+    figure = go.Figure()
+    figure.add_trace(go.Scatter(x=stock_data.index[-len(y_test):], y=y_test, mode='lines', name='Actual', line=dict(color='blue')))
+    figure.add_trace(go.Scatter(x=stock_data.index[-len(y_test):], y=y_pred.flatten(), mode='lines', name='Predicted', line=dict(color='red')))
+    figure.update_layout(title="Actual vs Predicted Percentage Change", xaxis_title="Date", yaxis_title="Percentage Change")
+    figure.show()
+
+# Load and Save Model Feature to save usage of yFinance requests
+def load_model_from_file(filename="stock_predictor_model.h5"):
+    if os.path.exists(filename):
+        model = load_model(filename)
+        logging.info(f"Model loaded from {filename}")
+        return model
+    else:
+        logging.error(f"Model file {filename} not found.")
+        exit()
+
+def save_model_to_file(model, filename="stock_predictor_model.h5"):
+    save_model(model, filename)
+    logging.info(f"Model saved to {filename}")
 
 
 def main():
@@ -103,10 +132,11 @@ def main():
     stock_data = calculate_golden_cross(stock_data)
     stock_data = calculate_rsi(stock_data)
     stock_data = calculate_fibonacci_levels(stock_data)
+    stock_data = calculate_vwap(stock_data)
     stock_data.dropna(inplace=True)
 
     # Defining our features
-    features = ['MA_5', 'MA_20', 'MA_50', 'Golden_Cross', 'Fib_0.236', 'Fib_0.382', 'Fib_0.5', 'Fib_0.618', 'Volume', 'RSI', 'Close']
+    features = ['MA_5', 'MA_20', 'MA_50', 'Golden_Cross', 'Fib_0.236', 'Fib_0.382', 'Fib_0.5', 'Fib_0.618', 'Volume', 'RSI', 'VWAP', 'Close']
 
     # Preping Data
     X, y, scaler = prepare_data(stock_data, features)
@@ -122,16 +152,24 @@ def main():
     X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
     X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
-    model = build_lstm_model((1, X_train.shape[2]))
 
-    # train model for 20 full cycles. Updates weight after every 16 samples. Check's accuracy during training
-    model.fit(X_train, y_train, epochs=30, batch_size=16, validation_data=(X_test, y_test))
+    model_filename = 'stock_predictor_model.h5'
+    if os.path.exists(model_filename):
+        model = load_model_from_file()
+    else:
+        model = build_lstm_model((1, X_train.shape[2]))
+        # train model for 20 full cycles. Updates weight after every 16 samples. Check's accuracy during training
+        model.fit(X_train, y_train, epochs=30, batch_size=16, validation_data=(X_test, y_test))
+        save_model_to_file(model, model_filename)
 
     # Test Model
     loss, mae = model.evaluate(X_test, y_test)
     logging.info(f"Test Mean Absolute Error: {mae:.4f}%")
 
     # For predictions of tomorrows stock 
+    y_pred = model.predict(X_test)
+    plot_results(stock_data, y_test, y_pred)
+
     # Preparing the todays data and reorganizing it to fit in the LSTM input
     # Get the latest stock data for prediction
     latest_data = stock_data[features].iloc[-1:].values # Extract last row
