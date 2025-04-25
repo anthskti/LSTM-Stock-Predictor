@@ -11,6 +11,7 @@ Using:
 - the RSI (Relative Strength Index)
 - the Fibonacci Retracement Levels
 - the VWAP (Volume Weighted Average Price)
+
 I added and reorganized the data, then put it in an LSTM (long short-term memory) model for pattern recognition, predicting the next output, or in this case, the next day of the stock.\
 Human predictions for stocks are usually 50/50, but this model can predict higher than that with all the indicators I've implemented within the script.\
 There is an error rate calculator to show its potential success rate, as the stock market isn't just a yes or no, but it is a good baseline for those who are interested in investing.\
