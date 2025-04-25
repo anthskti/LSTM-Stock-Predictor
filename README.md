@@ -2,14 +2,22 @@
 Machine Learning Model for a Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
-My original Idea started with, predicting the price of GOOG, but ended up making it more versatile.\
-The stock market is full of potential, using pattern recognition is something investors and traders use to analyze and predict stock prices. My intuition was to use those common stock patterns with machine learning to analyze a stock and conclude if the price with go up or down.
-Using 5 day, 20 day, and 50 day SMA (Simple Moving Averages) indicators with the Golden Cross (as it can show large momentum) and the Fibonnaci Retracement Levels, I reorganized and inputted the data of the desired stock into an LSTM (long short-term memory) model to find patterns and predict the next day stock.\
-There is a 50% chance you can be right if you look at a stock, but this model can predict higher than that with all the indicators I've implemented within the script.\
-Though it is not always right, as the stock market is always flucuating, it is a good baseline for those who are interested in investing.
+## Intuition 
+My original idea was predicting the price of GOOG, but after achieving that, I kept adding more features.\
+The stock market is full of potential. Investors and traders use pattern recognition to analyze and predict stock prices all the time. My intuition was to use those common stock patterns with machine learning to analyze a stock and conclude whether the price will go up or down.
+Using:
+- 5-day, 20-day, 50-day SMA (Simple Moving Averages) indicators
+- the Golden Cross (as it can show large momentum)
+- the RSI (Relative Strength Index)
+- the Fibonacci Retracement Levels
+- the VWAP (Volume Weighted Average Price)
+I added and reorganized the data, then put it in an LSTM (long short-term memory) model for pattern recognition, predicting the next output, or in this case, the next day of the stock.\
+Human predictions for stocks are usually 50/50, but this model can predict higher than that with all the indicators I've implemented within the script.\
+There is an error rate calculator to show its potential success rate, as the stock market isn't just a yes or no, but it is a good baseline for those who are interested in investing.\
+I also played around with showing the data, so using plotly, I convert the data into a simple line graph comparing real vs predicted.
 
 ### Prerequisites
-Make Sure you have the following install:
+Make Sure you have the following installed:
 - [Python](https://www.python.org/)
 - [Pip](https://pip.pypa.io/en/stable/) (Python package manager)
 
@@ -28,21 +36,10 @@ pip install yfinance pandas numpy plotly scikit-learn tensorflow
 ```
 
 3. Run Python Script for the following code
-for the stock predictor with SMA binary
+for the final version (including plotly)
 ``` bash
-python3 lstm_stock_sma.py
+python3 ‎stock_predictor_modular.py
 ```
-for the stock predictor with golden cross and fibonacci levels binary 
-``` bash
-python3 lstm_stock_predictor.py
-```
-for the stock predictor with golden cross, fibonacci levels, and RSI binary
-``` bash
-python3 lstm_stock_predictor_complex_binary.py
-```
-for the stock predictor with golden cross, fibonacci levels, and RSI percentage difference with MAE
-``` bash
-python3 lstm_stock_predictor_complex.py
-```
+The other files are simply a means for comparison. However, the one listed above has all features.
 
 Input any valid ticker and a prediction for tomorrows stock will show.
