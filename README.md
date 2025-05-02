@@ -1,4 +1,4 @@
-# LSTM-Stock-Predictor
+# Trace
 Machine Learning Model for a Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
