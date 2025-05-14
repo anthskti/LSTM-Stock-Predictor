@@ -16,8 +16,8 @@ Make Sure you have the following install:
 ### Installation 
 1. Clone Repository: 
 ``` bash
-git clone https://github.com/anthskti/LSTM-Stock-Predictor.git
-cd LSTM-Stock-Predictor
+git clone https://github.com/anthskti/Trace.git
+cd Trace
 ```
 
 2. Enter in Python Virtual Environment and Install Packages (for macos)
@@ -28,21 +28,9 @@ pip install -r requirements.txt
 ```
 
 3. Run Python Script for the following code
-for the stock predictor with SMA binary
 ``` bash
-python3 lstm_stock_sma.py
+python3 trace-main.py
 ```
-for the stock predictor with golden cross and fibonacci levels binary 
-``` bash
-python3 lstm_stock_predictor.py
-```
-for the stock predictor with golden cross, fibonacci levels, and RSI binary
-``` bash
-python3 lstm_stock_predictor_complex_binary.py
-```
-for the stock predictor with golden cross, fibonacci levels, and RSI percentage difference with MAE
-``` bash
-python3 lstm_stock_predictor_complex.py
-```
+I kept the other models I had for comparison, feel free to compare looking at the "prev_models" folder. 
 
 Input any valid ticker and a prediction for tomorrows stock will show.
