@@ -1,4 +1,4 @@
-# LSTM-Stock-Predictor
+# Trace
 Machine Learning Model for a Stock Share.\
 Predicting the question: "Will tomorrow's price be higher than today's closing price?".
 
@@ -24,7 +24,7 @@ cd LSTM-Stock-Predictor
 ``` bash 
 python3 -m venv venv
 source venv/bin/activate
-pip install yfinance pandas numpy plotly scikit-learn tensorflow
+pip install -r requirements.txt
 ```
 
 3. Run Python Script for the following code
